@@ -1,15 +1,16 @@
 # modified from https://github.com/feng-yufei/shared_debugging_code/blob/main/model/t2s_lightning_module.py
-import os, sys
+import os
+import sys
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 from typing import Dict
 
 import torch
-from pytorch_lightning import LightningModule
 from AR.models.t2s_model import Text2SemanticDecoder
 from AR.modules.lr_schedulers import WarmupCosineLRSchedule
 from AR.modules.optim import ScaledAdam
+from pytorch_lightning import LightningModule
 
 
 class Text2SemanticLightningModule(LightningModule):

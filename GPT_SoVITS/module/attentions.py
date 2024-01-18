@@ -1,10 +1,10 @@
 import math
-import torch
-from torch import nn
-from torch.nn import functional as F
 
+import torch
 from module import commons
 from module.modules import LayerNorm
+from torch import nn
+from torch.nn import functional as F
 
 
 class Encoder(nn.Module):

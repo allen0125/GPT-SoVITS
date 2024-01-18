@@ -1,22 +1,22 @@
 # modified from https://github.com/feng-yufei/shared_debugging_code/blob/main/model/t2s_model.py
 import torch
-from tqdm import tqdm
-
-from AR.models.utils import make_pad_mask
 from AR.models.utils import (
-    topk_sampling,
-    sample,
     logits_to_probs,
+    make_pad_mask,
     multinomial_sample_one_no_sync,
+    sample,
+    topk_sampling,
 )
-from AR.modules.embedding import SinePositionalEmbedding
-from AR.modules.embedding import TokenEmbedding
-from AR.modules.transformer import LayerNorm
-from AR.modules.transformer import TransformerEncoder
-from AR.modules.transformer import TransformerEncoderLayer
+from AR.modules.embedding import SinePositionalEmbedding, TokenEmbedding
+from AR.modules.transformer import (
+    LayerNorm,
+    TransformerEncoder,
+    TransformerEncoderLayer,
+)
 from torch import nn
 from torch.nn import functional as F
 from torchmetrics.classification import MulticlassAccuracy
+from tqdm import tqdm
 
 default_config = {
     "embedding_dim": 512,

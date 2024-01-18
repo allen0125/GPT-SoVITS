@@ -3,7 +3,6 @@ import re
 import sys
 
 import pyopenjtalk
-
 from text import symbols
 
 # Regular expression matching Japanese without punctuation marks:

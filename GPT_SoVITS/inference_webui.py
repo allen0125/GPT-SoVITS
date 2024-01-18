@@ -16,19 +16,22 @@ if "_CUDA_VISIBLE_DEVICES" in os.environ:
     os.environ["CUDA_VISIBLE_DEVICES"] = os.environ["_CUDA_VISIBLE_DEVICES"]
 is_half = eval(os.environ.get("is_half", "True"))
 import gradio as gr
-from transformers import AutoModelForMaskedLM, AutoTokenizer
+import librosa
 import numpy as np
-import librosa,torch
+import torch
 from feature_extractor import cnhubert
-cnhubert.cnhubert_base_path=cnhubert_base_path
+from transformers import AutoModelForMaskedLM, AutoTokenizer
 
-from module.models import SynthesizerTrn
+cnhubert.cnhubert_base_path = cnhubert_base_path
+
+from time import time as ttime
+
 from AR.models.t2s_lightning_module import Text2SemanticLightningModule
+from module.mel_processing import spectrogram_torch
+from module.models import SynthesizerTrn
+from my_utils import load_audio
 from text import cleaned_text_to_sequence
 from text.cleaner import clean_text
-from time import time as ttime
-from module.mel_processing import spectrogram_torch
-from my_utils import load_audio
 
 device = "cuda"
 tokenizer = AutoTokenizer.from_pretrained(bert_path)
@@ -59,8 +62,9 @@ def get_bert_feature(text, word2ph):
 
 n_semantic = 1024
 
-dict_s2=torch.load(sovits_path,map_location="cpu")
-hps=dict_s2["config"]
+dict_s2 = torch.load(sovits_path, map_location="cpu")
+hps = dict_s2["config"]
+
 
 class DictToAttrRecursive(dict):
     def __init__(self, input_dict):
@@ -105,7 +109,7 @@ vq_model = SynthesizerTrn(
     hps.data.filter_length // 2 + 1,
     hps.train.segment_size // hps.data.hop_length,
     n_speakers=hps.data.n_speakers,
-    **hps.model
+    **hps.model,
 )
 if is_half == True:
     vq_model = vq_model.half().to(device)

@@ -1,11 +1,10 @@
 import os
 import pdb
 import re
+import sys
 
 import cn2an
-from pypinyin import lazy_pinyin, Style
-
-import sys
+from pypinyin import Style, lazy_pinyin
 
 sys.path.append("/data/docker/liujing04/gpt-vits/gpt-vits-master")
 
@@ -19,7 +18,6 @@ pinyin_to_symbol_map = {
 }
 
 import jieba.posseg as psg
-
 
 rep_map = {
     "：": ",",

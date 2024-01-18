@@ -32,10 +32,10 @@
 """Core vector quantization implementation."""
 import typing as tp
 
-from einops import rearrange, repeat
 import torch
-from torch import nn
 import torch.nn.functional as F
+from einops import rearrange, repeat
+from torch import nn
 from tqdm import tqdm
 
 

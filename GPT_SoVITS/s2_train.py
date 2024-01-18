@@ -1,35 +1,36 @@
-import utils, os
+import os
+
+import utils
 
 hps = utils.get_hparams(stage=2)
 os.environ["CUDA_VISIBLE_DEVICES"] = hps.train.gpu_numbers.replace("-", ",")
+import logging
+import traceback
+
 import torch
+import torch.distributed as dist
+import torch.multiprocessing as mp
+from torch.cuda.amp import GradScaler, autocast
 from torch.nn import functional as F
+from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-import torch.multiprocessing as mp
-import torch.distributed as dist, traceback
-from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.cuda.amp import autocast, GradScaler
 from tqdm import tqdm
-import logging, traceback
 
 logging.getLogger("matplotlib").setLevel(logging.INFO)
 logging.getLogger("h5py").setLevel(logging.INFO)
 logging.getLogger("numba").setLevel(logging.INFO)
 from random import randint
-from module import commons
 
+from module import commons
 from module.data_utils import (
-    TextAudioSpeakerLoader,
-    TextAudioSpeakerCollate,
     DistributedBucketSampler,
+    TextAudioSpeakerCollate,
+    TextAudioSpeakerLoader,
 )
-from module.models import (
-    SynthesizerTrn,
-    MultiPeriodDiscriminator,
-)
-from module.losses import generator_loss, discriminator_loss, feature_loss, kl_loss
+from module.losses import discriminator_loss, feature_loss, generator_loss, kl_loss
 from module.mel_processing import mel_spectrogram_torch, spec_to_mel_torch
+from module.models import MultiPeriodDiscriminator, SynthesizerTrn
 from process_ckpt import savee
 
 torch.backends.cudnn.benchmark = False

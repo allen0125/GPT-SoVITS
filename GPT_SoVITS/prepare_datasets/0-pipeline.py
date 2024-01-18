@@ -1,16 +1,12 @@
-import os, torch, sys
+import os
+import sys
 from subprocess import Popen
+
+import torch
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
-from config import (
-    text_path,
-    wav_dir,
-    n_card,
-    exp_name,
-    n_parts,
-    exp_dir,
-)
+from config import exp_dir, exp_name, n_card, n_parts, text_path, wav_dir
 
 os.makedirs("%s/logs_s1" % exp_dir, exist_ok=True)
 os.makedirs("%s/logs_s2" % exp_dir, exist_ok=True)

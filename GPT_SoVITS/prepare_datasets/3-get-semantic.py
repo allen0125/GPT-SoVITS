@@ -9,18 +9,24 @@ opt_dir = os.environ.get("opt_dir")
 pretrained_s2G = os.environ.get("pretrained_s2G")
 s2config_path = os.environ.get("s2config_path")
 is_half = eval(os.environ.get("is_half", "True"))
-import math, traceback
+import math
 import multiprocessing
-import sys, pdb
+import pdb
+import sys
+import traceback
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
-from random import shuffle
-import torch.multiprocessing as mp
+import logging
 from glob import glob
-from tqdm import tqdm
-import logging, librosa, utils, torch
+from random import shuffle
+
+import librosa
+import torch
+import torch.multiprocessing as mp
+import utils
 from module.models import SynthesizerTrn
+from tqdm import tqdm
 
 logging.getLogger("numba").setLevel(logging.WARNING)
 # from config import pretrained_s2G

@@ -1,10 +1,9 @@
-import pickle
 import os
+import pickle
 import re
-from g2p_en import G2p
-
 from string import punctuation
 
+from g2p_en import G2p
 from text import symbols
 
 current_file_path = os.path.dirname(__file__)
